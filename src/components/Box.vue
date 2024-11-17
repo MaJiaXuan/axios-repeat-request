@@ -1,6 +1,14 @@
 <script setup>
-import { getData, postData } from '@api'
+import { getData } from '@api'
+import { getDataV2 } from '@api/super'
 import { ref } from 'vue'
+
+const props = defineProps({
+  isSuper: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const value = ref(null)
 const error = ref(null)
@@ -8,7 +16,7 @@ const loading = ref(null)
 
 const init = () => {
   loading.value = true
-  getData({ a: 123 })
+  ;(props.isSuper ? getDataV2 : getData)({ a: 123 })
     .then((res) => {
       value.value = res
       error.value = null
